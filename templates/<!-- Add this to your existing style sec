@@ -1,0 +1,30 @@
+<!-- Add this to your existing style section in index.html -->
+.recent-activity {
+    margin: 4rem 0;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recent-activity h2 {
+    color: #71b7e6;
+    margin-bottom: 1.5rem;
+}
+
+.test-card {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.test-card h3 {
+    color: #9b59b6;
+    margin-bottom: 0.5rem;
+}
+
+.test-card p {
+    color: #ccc;
+    margin: 0.25rem 0;
+}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - MindHue{% endblock %}
+{% block content %}
+    <div class="max-w-7xl mx-auto">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header-glass flex justify-between items-center mb-8 animate__animated animate__fadeIn">
+            <div class="flex items-center gap-6">
+                <h1 class="text-3xl font-bold text-red-500">Welcome, {{ request.user.username }}! 👋</h1>
+                <a href="{% url 'index' %}" 
+                   class="px-6 py-3 bg-red-900/20 hover:bg-red-900/40 text-red-400 rounded-lg transition-all duration-300 backdrop-blur-sm hover:scale-105 shadow-lg border border-red-900/50">
+                    🏠 Home
+                </a>
+            </div>
+            <a href="{% url 'logout' %}" 
+               class="px-6 py-3 bg-red-900/20 hover:bg-red-900/40 text-red-500 rounded-lg transition-all duration-300 backdrop-blur-sm hover:scale-105 shadow-lg border border-red-900/50">
+                Logout
+            </a>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="dashboard-card-glass mb-8 animate__animated animate__fadeInUp">
+            <h2 class="text-2xl font-semibold mb-6 text-red-500">Upload Image for Analysis 🔍</h2>
+            <form action="{% url 'analyze_colorblind' %}" method="POST" enctype="multipart/form-data" 
+                  class="space-y-6">
+                {% csrf_token %}
+                <div class="space-y-4">
+                    <label for="fundus" class="block text-lg text-red-400">Fundus Camera Image:</label>
+                    <input type="file" id="fundus" name="fundus_image" accept="image/*" required
+                           class="w-full p-3 bg-black/30 rounded-lg border border-red-900/30 hover:border-red-500 transition-all duration-300 text-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="space-y-4">
+                    <label for="erg" class="block text-lg text-red-400">ERG Data (Optional):</label>
+                    <input type="file" id="erg" name="erg_data" accept=".csv,.txt"
+                           class="w-full p-3 bg-black/30 rounded-lg border border-red-900/30 hover:border-red-500 transition-all duration-300 text-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <button type="submit" 
+                        class="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-300 hover:scale-[1.02] transform shadow-lg hover:shadow-red-500/50">
+                    Analyze
+                </button>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="dashboard-card-glass animate__animated animate__fadeInUp animate__delay-1s">
+            <h2 class="text-2xl font-semibold mb-6 text-red-500">Previous Tests 📊</h2>
+            {% if tests %}
+                <div class="space-y-4">
+                    {% for test in tests %}
+                        <div class="bg-black/50 p-6 rounded-xl hover:bg-red-900/20 transition-all duration-300 transform hover:scale-[1.01] cursor-pointer border border-red-900/30">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <p><span class="font-semibold text-red-400">Date:</span><br>{{ test.created_at|date:"F d, Y H:i" }}</p>
+                                <p><span class="font-semibold text-red-400">Type:</span><br>{{ test.result_type }}</p>
+                                <p><span class="font-semibold text-red-400">Severity:</span><br>{{ test.severity }}</p>
+                                <p><span class="font-semibold text-red-400">Confidence:</span><br>{{ test.confidence }}%</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-12 animate-pulse-slow">
+                    <p class="text-xl text-red-400/80">No tests found. Upload an image to get started! ✨</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.addEventListener('change', function() {
+                if(this.files.length > 0) {
+                    this.classList.add('border-red-500');
+                    this.classList.add('animate-glow');
+                } else {
+                    this.classList.remove('border-red-500');
+                    this.classList.remove('animate-glow');
+                }
+            });
+        });
+    </script>
+{% endblock %}

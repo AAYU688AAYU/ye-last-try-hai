@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagnosis Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .result-container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .result {
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 4px;
+            background: #fff;
+        }
+        .back-button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .back-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Diagnosis Result</h1>
+        <div class="result">
+            <p>Diagnosis: {{ result }}</p>
+        </div>
+        <a href="{% url 'upload' %}" class="back-button">Upload Another Image</a>
+    </div>
+</body>
+</html> 
